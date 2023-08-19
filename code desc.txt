@@ -1,0 +1,51 @@
+Let's go through the code step by step to understand its functionality:
+
+1. **Import Required Libraries:**
+   - `tweepy`: A Python library for accessing the Twitter API.
+   - `TextBlob`: A library for processing textual data and performing natural language processing tasks like sentiment analysis.
+   - `matplotlib.pyplot`: A library for creating data visualizations.
+   - `pandas`: A library for data manipulation and analysis.
+   - `FastAPI`: A modern, fast (high-performance) web framework for building APIs.
+   - `Request`, `Form`, `HTMLResponse`: FastAPI components for handling HTTP requests and responses.
+
+2. **FastAPI App Setup:**
+   - `app = FastAPI()`: Creates a FastAPI instance named `app`.
+
+3. **Twitter API Authentication:**
+   - `authenticate_twitter_api()`: Creates and returns an authenticated Twitter API object using the provided credentials.
+   - Replace `YOUR_CONSUMER_KEY`, `YOUR_CONSUMER_SECRET`, `YOUR_ACCESS_TOKEN`, and `YOUR_ACCESS_TOKEN_SECRET` with your actual Twitter API credentials.
+
+4. **Sentiment Analysis:**
+   - `perform_sentiment_analysis(api, search_keyword)`: Takes the authenticated Twitter API object `api` and a `search_keyword` as input.
+   - Retrieves recent tweets containing the specified `search_keyword`.
+   - Analyzes each tweet's sentiment using TextBlob, calculates the sentiment score, and categorizes the sentiment as positive, negative, or neutral.
+   - Creates a DataFrame containing tweet text, sentiment, and sentiment score.
+   - Returns the sentiment analysis DataFrame.
+
+5. **Visualization:**
+   - `visualize_sentiment_distribution(df, plot_filename)`: Takes the sentiment analysis DataFrame `df` and a `plot_filename` for saving the visualization.
+   - Generates a bar plot showing the distribution of sentiments (positive, negative, neutral).
+   - Saves the plot as an image file with the specified filename.
+   - Closes the plot's figure to prevent memory leaks.
+
+6. **API Endpoint for Sentiment Analysis:**
+   - `@app.post("/analyze")`: Defines a POST request endpoint `/analyze` for sentiment analysis.
+   - The endpoint takes a form field `keyword` from the user input.
+   - The function:
+     - Authenticates the Twitter API.
+     - Calls `perform_sentiment_analysis()` to get sentiment analysis results.
+     - Calls `visualize_sentiment_distribution()` to create the sentiment distribution plot and save it as an image.
+     - Generates an HTML response that displays sentiment analysis results and the sentiment plot.
+
+7. **Main Execution Block:**
+   - `if __name__ == "__main__":` ensures that the following code only runs when the script is executed directly (not when imported as a module).
+   - `uvicorn.run(app, host="0.0.0.0", port=8000)`: Starts the FastAPI app using the Uvicorn ASGI server, allowing the web interface to be accessible on `http://localhost:8000`.
+
+To use this code:
+1. Replace the placeholder Twitter API credentials with your actual credentials.
+2. Install the required libraries using `pip install tweepy textblob matplotlib fastapi uvicorn`.
+3. Save the code to a file (e.g., `app.py`).
+4. Run the FastAPI app with `uvicorn app:app --host 0.0.0.0 --port 8000`.
+5. Access the web interface at `http://localhost:8000`, enter a keyword, and see sentiment analysis results and plots for tweets containing that keyword.
+
+Remember that this code provides a basic example of integrating sentiment analysis with FastAPI and Twitter API. For production use, you should consider error handling, security measures, and potentially more advanced features.
